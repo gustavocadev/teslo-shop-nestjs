@@ -33,13 +33,15 @@ export class AuthService {
         ...userData,
         password: hashedPassword,
       });
-      delete user.password;
       // todo: return the jwt token
       await this.userRepository.save(user);
+
+      delete user.password;
+
       return {
         ...user,
         token: this.#getJwtToken({
-          email: user.email,
+          id: user.id,
         }),
       };
     } catch (err) {
@@ -56,6 +58,7 @@ export class AuthService {
       select: {
         email: true,
         password: true,
+        id: true,
       },
     });
 
@@ -73,13 +76,22 @@ export class AuthService {
     return {
       ...user,
       token: this.#getJwtToken({
-        email: user.email,
+        id: user.id,
       }),
     };
   }
 
+  async checkAuthStatus(user: User) {
+    return {
+      ...user,
+      token: this.#getJwtToken({ id: user.id }),
+    };
+  }
+
   #getJwtToken(payload: JwtPayload) {
-    const accessToken = this.jwtService.sign(payload);
+    const accessToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET,
+    });
     return accessToken;
   }
 

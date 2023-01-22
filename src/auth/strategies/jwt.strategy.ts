@@ -23,9 +23,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<User> {
-    const { email } = payload;
+    const { id } = payload;
 
-    const user = await this.userRepository.findOneBy({ email });
+    const user = await this.userRepository.findOneBy({ id });
 
     if (!user) {
       throw new UnauthorizedException('Token inválido');
@@ -35,6 +35,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         'Usuario inactivo, hable con el administrador'
       );
     }
+
+    delete user.password;
 
     // lo que sea que retorne aquí, se va a guardar en el request
     return user;
