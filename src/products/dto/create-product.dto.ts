@@ -1,51 +1,67 @@
+import { ApiProperty } from '@nestjs/swagger'
 import {
-  IsArray,
-  IsIn,
-  IsInt,
-  IsNumber,
-  IsOptional,
-  IsPositive,
-  IsString,
-  MinLength,
-} from 'class-validator';
+	IsArray,
+	IsIn,
+	IsInt,
+	IsNumber,
+	IsOptional,
+	IsPositive,
+	IsString,
+	MinLength,
+} from 'class-validator'
 
 export class CreateProductDto {
-  @IsString()
-  @MinLength(3)
-  title: string;
+	@ApiProperty({
+		example: 'Nike Air Force 1',
+		description: 'Name of the product',
+		nullable: false,
+		minLength: 3,
+	})
+	@ApiProperty()
+	@IsString()
+	@MinLength(3)
+	title: string
 
-  @IsNumber()
-  @IsPositive()
-  @IsOptional()
-  price?: number;
+	@ApiProperty()
+	@IsNumber()
+	@IsPositive()
+	@IsOptional()
+	price?: number
 
-  @IsString()
-  @IsOptional()
-  description?: string;
+	@ApiProperty()
+	@IsString()
+	@IsOptional()
+	description?: string
 
-  @IsString()
-  @IsOptional()
-  slug?: string;
+	@ApiProperty()
+	@IsString()
+	@IsOptional()
+	slug?: string
 
-  @IsInt()
-  @IsPositive()
-  @IsOptional()
-  stock?: number;
+	@ApiProperty()
+	@IsInt()
+	@IsPositive()
+	@IsOptional()
+	stock?: number
 
-  @IsString({ each: true })
-  @IsArray()
-  sizes: string[];
+	@ApiProperty()
+	@IsString({ each: true })
+	@IsArray()
+	sizes: string[]
 
-  @IsIn(['men', 'women', 'kid', 'unisex'])
-  gender: string;
+	@ApiProperty()
+	@IsIn(['men', 'women', 'kid', 'unisex'])
+	gender: string
 
-  @IsString({ each: true })
-  @IsArray()
-  @IsOptional()
-  tags?: string[];
+	@ApiProperty()
+	@IsString({ each: true })
+	@IsArray()
+	@IsOptional()
+	tags?: string[]
 
-  @IsString({ each: true })
-  @IsArray()
-  @IsOptional()
-  images?: string[];
+	@ApiProperty()
+	@IsString({ each: true })
+	@IsArray()
+	@IsOptional()
+	images?: string[]
 }
